@@ -1,19 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import ColumnHeader from "./ColumnHeader";
 import EmployeeRow from "./EmployeeRow";
 import API from "../API";
 
 // this class component is for the <table> of employee data
 class EmployeeTable extends Component {
-    // component functions
-    handleSort(){
+    // component state
+    state = {
+        users: [{}], // user list
+        order: "ascending" // sort order
+    }
 
+    // component functions
+    handleSort(columnName){
+        if (this.state.order === "ascending"){
+            this.setState({...this.state, order: "descending"});
+        }
+        else if (this.state.order === "descending"){
+            this.setState({...this.state, order: "ascending"});
+        }
     }
 
     // obtain users
     componentDidMount(){
         API.generateUser().then(function (result) {
-            
+            this.setState({users: result});
         });
     }
 
@@ -23,11 +34,15 @@ class EmployeeTable extends Component {
             <table>
                 <thead>
                     <tr>
-                        <ColumnHeader/>
+                        <ColumnHeader
+                        onClick={() => {this.handleSort}}
+                        >
+                            {columnName}
+                        </ColumnHeader>
                     </tr>
                 </thead>
                 <tbody>
-                    <EmployeeRow/>
+                    <EmployeeRow users={this.state.users}/>
                 </tbody>
             </table>
         )
