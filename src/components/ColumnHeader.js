@@ -5,7 +5,7 @@ function ColumnHeader({columns}){
         <tr>
             {columns.map(({name}) => {
                 return (
-                    <th className="col">
+                    <th className="col" key={name}>
                         {name}
                     </th>
                 );
