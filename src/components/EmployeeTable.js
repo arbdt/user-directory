@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Component } from "react";
 import ColumnHeader from "./ColumnHeader";
 import EmployeeRow from "./EmployeeRow";
 import API from "../API";
@@ -7,11 +7,15 @@ import API from "../API";
 class EmployeeTable extends Component {
     // component state
     state = {
-        users: [{}], // user list
+        userList: [{}], // user list
         order: "ascending" // sort order
     }
 
+    // names of columns for column header
+    columnNames = [{name: "Image"}, {name: "Name"}, {name: "Phone"}, {name: "Email"}, {name: "DOB"}];
+
     // component functions
+    // handler function for sorting up or down
     handleSort(columnName){
         if (this.state.order === "ascending"){
             this.setState({...this.state, order: "descending"});
@@ -21,31 +25,29 @@ class EmployeeTable extends Component {
         }
     }
 
-    // obtain users
+    // obtain users from API
     componentDidMount(){
-        API.generateUser().then(function (result) {
-            this.setState({users: result});
+        // call API
+        API.generateUser().then( result => {
+            // save what gets returned
+            let generatedData = result.data;
+            // set state with retrieved users
+            this.setState({userList: generatedData.results});
+            console.log(this.state.userList);
         });
     }
 
-    // render component
+    // render components
     render(){
         return (
             <table>
                 <thead>
-                    <tr>
-                        <ColumnHeader
-                        onClick={() => {this.handleSort}}
-                        >
-                            {columnName}
-                        </ColumnHeader>
-                    </tr>
+                    <ColumnHeader columns = {this.columnNames} >
+                    </ColumnHeader>
                 </thead>
-                <tbody>
-                    <EmployeeRow users={this.state.users}/>
-                </tbody>
+                <EmployeeRow users = {this.state.userList}></EmployeeRow>
             </table>
-        )
+        );
     }
 }
 

@@ -1,34 +1,43 @@
 import React from "react";
 
-function EmployeeRow({users}){
-    if(users[0] !== undefined && users[0].name !== undefined){
-        users.map(({ login, name, picture, phone, email, dob }) => {
-            return (
-                <tr key={login.uuid}>
-                    <td data-th="Image" className="align-middle">
-                        <img
-                            src={picture.medium}
-                            alt={"profile image for " + name.first + " " + name.last}
-                            className="img-responsive"
-                        />
-                    </td>
-                    <td data-th="Name" className="name-cell align-middle">
-                        {name.first} {name.last}
-                    </td>
-                    <td data-th="Phone" className="align-middle">
-                        {phone}
-                    </td>
-                    <td data-th="Email" className="align-middle">
-                        <a href={"mailto:" + email} target="__blank">
-                            {email}
-                        </a>
-                    </td>
-                    <td data-th="DOB" className="align-middle">
-                        {formatDate(dob.date)}
-                    </td>
-                </tr>
-            );
-        })
+function EmployeeRow(props){
+    let users = props.users;
+    // check if users present before rendering
+    if (users !== undefined && users[0] !== undefined){
+        // if present, render table rows
+        return (
+            // extract data by mapping user list
+            <tbody>
+                {users.map((user) => {
+                        return (
+                            <tr key={user.login.uuid}>
+                            <td>
+                                <img src={user.picture.medium} alt={"image of " + user.name.first + " " + user.name.last}/>
+                            </td>
+                            <td>
+                                {user.name.first} {user.name.last}
+                            </td>
+                            <td>
+                                {user.phone}
+                            </td>
+                            <td>
+                                {user.email}
+                            </td>
+                            </tr>
+                        );
+                    })
+                }
+            </tbody>
+        );
+    }
+    // otherwise, return empty table
+    else {
+        return (
+        <tbody>
+            <tr>
+                <td>No Users</td>
+            </tr>
+        </tbody>);
     }
 }
 
