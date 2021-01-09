@@ -1,11 +1,17 @@
 import React from "react";
 
-function ColumnHeader(props){
+function ColumnHeader({columns}){
     return (
-        <td>
-
-        </td>
-    )
+        <tr>
+            {columns.map(({name}) => {
+                return (
+                    <th className="col">
+                        {name}
+                    </th>
+                );
+            })}
+        </tr>
+    );
 }
 
 export default ColumnHeader;
