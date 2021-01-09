@@ -1,16 +1,16 @@
 import React, { Component } from "react";
-import DataArea from "./DataArea";
-import "../styles/Main.css";
+import EmployeeTable from "./EmployeeTable";
 
 // code for the <main> element of the page, which will contain the employee table
 class Main extends Component {
   render() {
     return (
       <main className="container">
-        <DataArea />
+        <EmployeeTable></EmployeeTable>
       </main>
     );
   }
 }
 
+// export the component
 export default Main;
